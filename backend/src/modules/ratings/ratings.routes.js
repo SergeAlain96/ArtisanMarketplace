@@ -19,6 +19,11 @@ const createRatingSchema = z.object({
   comment: z.string().max(500).optional()
 });
 
+const updateRatingSchema = z.object({
+  rating: z.number().min(1).max(5).optional(),
+  comment: z.string().max(500).optional()
+});
+
 router.post(
   '/ratings',
   authRequired,
@@ -115,6 +120,87 @@ router.get(
       average,
       count: mappedItems.length
     });
+  })
+);
+
+router.put(
+  '/ratings/:id',
+  authRequired,
+  requireRole('user', 'artisan', 'admin'),
+  validateBody(updateRatingSchema),
+  asyncHandler(async (req, res) => {
+    const db = await getDb();
+    const id = parseId(req.params.id);
+
+    if (!id) {
+      return sendError(res, 'Invalid rating id', 400);
+    }
+
+    const existing = await db.get(
+      `SELECT id, user_id AS userId, artisan_id AS artisanId, rating, comment,
+              created_at AS createdAt
+       FROM ratings WHERE id = ?`,
+      id
+    );
+
+    if (!existing) {
+      return sendError(res, 'Rating not found', 404);
+    }
+
+    const isOwner = String(existing.userId) === String(req.user.id);
+    if (req.user.role !== 'admin' && !isOwner) {
+      return sendError(res, 'Forbidden', 403);
+    }
+
+    const nextRating = req.body.rating ?? existing.rating;
+    const nextComment = req.body.comment ?? existing.comment;
+
+    await db.run(
+      `UPDATE ratings
+       SET rating = ?, comment = ?
+       WHERE id = ?`,
+      nextRating,
+      nextComment,
+      id
+    );
+
+    const updated = await db.get(
+      `SELECT id, user_id AS userId, artisan_id AS artisanId, rating, comment,
+              created_at AS createdAt
+       FROM ratings WHERE id = ?`,
+      id
+    );
+
+    return sendSuccess(res, { ...updated, _id: updated.id });
+  })
+);
+
+router.delete(
+  '/ratings/:id',
+  authRequired,
+  requireRole('user', 'artisan', 'admin'),
+  asyncHandler(async (req, res) => {
+    const db = await getDb();
+    const id = parseId(req.params.id);
+
+    if (!id) {
+      return sendError(res, 'Invalid rating id', 400);
+    }
+
+    const existing = await db.get('SELECT id, user_id AS userId FROM ratings WHERE id = ?', id);
+
+    if (!existing) {
+      return sendError(res, 'Rating not found', 404);
+    }
+
+    const isOwner = String(existing.userId) === String(req.user.id);
+    if (req.user.role !== 'admin' && !isOwner) {
+      return sendError(res, 'Forbidden', 403);
+    }
+
+    await db.run('DELETE FROM ratings WHERE id = ?', id);
+
+    return sendSuccess(res, { deleted: true });
   })
 );
 

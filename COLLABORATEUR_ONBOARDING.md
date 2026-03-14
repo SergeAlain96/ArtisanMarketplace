@@ -30,6 +30,11 @@ Ce document regroupe toutes les actions à faire pour démarrer rapidement le pr
 - Aller dans web/
 - Lancer: npm install
 
+### Mobile (Flutter)
+
+- Aller dans mobile/
+- Lancer: flutter pub get
+
 ## 4) Configurer les variables d’environnement
 
 ### Backend
@@ -66,6 +71,15 @@ Ce document regroupe toutes les actions à faire pour démarrer rapidement le pr
 
 - Dans web/: npm run dev
 - Ouvrir: http://localhost:3000
+
+### Lancer le mobile (Flutter)
+
+- Android emulator:
+  - flutter run --dart-define=API_BASE_URL=http://10.0.2.2:5000/api/v1
+- iOS simulator:
+  - flutter run --dart-define=API_BASE_URL=http://localhost:5000/api/v1
+- Device réel:
+  - flutter run --dart-define=API_BASE_URL=http://<ip-locale-machine>:5000/api/v1
 
 ## 6) Vérifications fonctionnelles minimales
 
@@ -125,9 +139,9 @@ Ce document regroupe toutes les actions à faire pour démarrer rapidement le pr
 
 ## 11) État du scope
 
-- Inclus: Web + API
+- Inclus: Web + API + Mobile (Flutter)
 - Temporaire: SQLite local
-- Reporté: mobile
+- Mobile: phase démarrée (scaffold prêt)
 
 ---
 

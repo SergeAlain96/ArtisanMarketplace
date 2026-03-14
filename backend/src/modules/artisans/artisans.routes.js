@@ -91,6 +91,28 @@ router.put(
 );
 
 router.get(
+  '/artisan/profile',
+  authRequired,
+  requireRole('artisan'),
+  asyncHandler(async (req, res) => {
+    const db = await getDb();
+    const userId = Number(req.user.id);
+
+    const profile = await db.get(
+      `SELECT id, user_id AS userId, bio, location, avatar_url AS avatarUrl,
+              created_at AS createdAt, updated_at AS updatedAt
+       FROM artisan_profiles WHERE user_id = ?`,
+      userId
+    );
+
+    return sendSuccess(res, {
+      profile: profile || null,
+      exists: Boolean(profile)
+    });
+  })
+);
+
+router.get(
   '/artisans',
   asyncHandler(async (req, res) => {
     const db = await getDb();

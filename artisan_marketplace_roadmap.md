@@ -1,6 +1,6 @@
 # Artisan Marketplace -- Development Roadmap (10 Days)
 
-> Current scope: **Web + REST API only**. Mobile app is intentionally postponed.
+> Current scope: **Web + REST API + Mobile (Flutter)**.
 > Local runtime note: **SQLite is used temporarily** for development convenience.
 
 ## Project Overview
@@ -37,8 +37,10 @@ Mobile App (Flutter) \| \| Web App (NextJS / React) \| \| REST API
 
 ## Current Architecture (Active)
 
-Web App (NextJS / React) \| \| REST API (NodeJS / Express) \| \|
-Database (MongoDB)
+Mobile App (Flutter) \| \| Web App (NextJS / React) \| \| REST API (NodeJS / Express) \| \|
+Database (SQLite local temporary)
+
+Latest mobile MVP additions: shared bottom navigation, local favorites/bookmarks, polished home summary.
 
 ------------------------------------------------------------------------
 
@@ -237,6 +239,25 @@ moderation
 ------------------------------------------------------------------------
 
 # PHASE 5 --- Mobile App Development (Day 8)
+
+### Phase 5 Status (started)
+
+-   Flutter mobile scaffold initialized
+-   API client architecture prepared (auth/artisans/products/ratings)
+-   Main screens scaffolded (home, artisan, product, login, register)
+-   JWT session persistence enabled on mobile (secure storage)
+-   Role-protected mobile dashboards added (artisan/admin)
+-   Artisan mobile product CRUD implemented (create/read/update/delete)
+-   Mobile ratings flow implemented (list + create rating)
+-   Mobile ratings management implemented (edit + delete own rating)
+-   Mobile filters/search implemented (artisans + products) with product pagination
+-   Mobile UX standardized with skeleton loaders and retry states
+-   Mobile product image URLs supported with previews
+-   Mobile artisan profile management implemented
+-   Mobile admin moderation actions implemented
+-   Mobile favorites/bookmarks implemented
+-   Mobile home polished with quick-access MVP navigation
+-   See [docs/phase5_mobile_progress.md](docs/phase5_mobile_progress.md)
 
 Flutter Screens
 
