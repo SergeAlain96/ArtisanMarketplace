@@ -21,7 +21,7 @@ export default function AuthGate({ children, roles = [] }) {
       if (!token) {
         if (active) {
           setAuthorized(false);
-          setMessage('Tu dois te connecter pour accéder à cette page.');
+          setMessage('You need to sign in to access this page.');
           setLoading(false);
         }
         return;
@@ -34,13 +34,13 @@ export default function AuthGate({ children, roles = [] }) {
 
         if (active) {
           setAuthorized(roleAllowed);
-          setMessage(roleAllowed ? '' : 'Accès refusé pour ton rôle.');
+          setMessage(roleAllowed ? '' : 'Access denied for your role.');
         }
       } catch {
         clearSession();
         if (active) {
           setAuthorized(false);
-          setMessage('Session expirée. Connecte-toi à nouveau.');
+          setMessage('Session expired. Please sign in again.');
         }
       } finally {
         if (active) setLoading(false);
@@ -55,15 +55,15 @@ export default function AuthGate({ children, roles = [] }) {
   }, [acceptedRoles]);
 
   if (loading) {
-    return <div className="card">Vérification de session...</div>;
+    return <div className="card">Checking session...</div>;
   }
 
   if (!authorized) {
     return (
       <div className="card space-y-2">
-        <p className="text-sm text-red-600">{message || 'Accès non autorisé.'}</p>
+        <p className="text-sm text-red-600">{message || 'Unauthorized access.'}</p>
         <Link href="/login" className="inline-flex rounded-md border px-3 py-1.5 text-sm hover:bg-slate-100">
-          Aller à la connexion
+          Go to login
         </Link>
       </div>
     );

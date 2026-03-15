@@ -27,7 +27,7 @@ export default function ArtisanDashboardPage() {
       const result = await fetchMyProducts();
       setProducts(result.items || []);
     } catch (err) {
-      setError(err.message || 'Impossible de charger tes produits.');
+      setError(err.message || 'Unable to load your products.');
     } finally {
       setLoadingProducts(false);
     }
@@ -45,23 +45,23 @@ export default function ArtisanDashboardPage() {
     try {
       if (editingProductId) {
         await updateProduct(editingProductId, payload);
-        setMessage('Produit mis à jour avec succès.');
+        setMessage('Product updated successfully.');
         setEditingProductId('');
       } else {
         await createProduct(payload);
-        setMessage('Produit créé avec succès.');
+        setMessage('Product created successfully.');
       }
 
       await loadProducts();
     } catch (err) {
-      setError(err.message || 'Opération impossible. Vérifie ton rôle artisan et le token.');
+      setError(err.message || 'Operation failed. Check your artisan role and token.');
     } finally {
       setLoading(false);
     }
   }
 
   async function handleDeleteProduct(productId) {
-    const confirmed = globalThis.confirm('Confirmer la suppression de ce produit ?');
+    const confirmed = globalThis.confirm('Confirm deletion of this product?');
     if (!confirmed) return;
 
     setDeletingId(String(productId));
@@ -70,13 +70,13 @@ export default function ArtisanDashboardPage() {
 
     try {
       await deleteProduct(productId);
-      setMessage('Produit supprimé avec succès.');
+      setMessage('Product deleted successfully.');
       if (String(editingProductId) === String(productId)) {
         setEditingProductId('');
       }
       await loadProducts();
     } catch (err) {
-      setError(err.message || 'Suppression impossible.');
+      setError(err.message || 'Deletion failed.');
     } finally {
       setDeletingId('');
     }
@@ -85,8 +85,8 @@ export default function ArtisanDashboardPage() {
   return (
     <AuthGate roles={['artisan']}>
       <section className="space-y-4">
-        <h1 className="text-2xl font-bold">Dashboard Artisan</h1>
-        <p className="text-slate-600">Ajoute, consulte, modifie et supprime tes produits depuis cet espace.</p>
+        <h1 className="text-2xl font-bold">Artisan Dashboard</h1>
+        <p className="text-slate-600">Add, view, edit, and delete your products from this space.</p>
         <ProductForm
           onSubmit={handleCreateProduct}
           loading={loading}
@@ -100,7 +100,7 @@ export default function ArtisanDashboardPage() {
 
         <div className="card space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Mes produits</h2>
+            <h2 className="text-lg font-semibold">My products</h2>
             <button
               type="button"
               onClick={loadProducts}
@@ -110,10 +110,10 @@ export default function ArtisanDashboardPage() {
             </button>
           </div>
 
-          {loadingProducts ? <p className="text-sm text-slate-600">Chargement des produits...</p> : null}
+          {loadingProducts ? <p className="text-sm text-slate-600">Loading products...</p> : null}
 
           {!loadingProducts && products.length === 0 ? (
-            <p className="text-sm text-slate-600">Aucun produit créé pour le moment.</p>
+            <p className="text-sm text-slate-600">No products created yet.</p>
           ) : null}
 
           {loadingProducts ? null : (

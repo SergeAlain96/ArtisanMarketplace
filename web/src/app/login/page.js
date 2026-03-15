@@ -24,7 +24,7 @@ export default function LoginPage() {
       const nextPath = searchParams.get('next');
       router.push(nextPath || '/');
     } catch (err) {
-      setError(err.message || 'Connexion impossible');
+      setError(err.message || 'Unable to sign in');
     } finally {
       setLoading(false);
     }
@@ -33,8 +33,8 @@ export default function LoginPage() {
   return (
     <section className="mx-auto max-w-md space-y-5">
       <div className="space-y-1 text-center">
-        <h1 className="section-title">Connexion</h1>
-        <p className="section-subtitle">Accède à ton espace personnel sécurisé.</p>
+        <h1 className="section-title">Login</h1>
+        <p className="section-subtitle">Access your secure personal space.</p>
       </div>
       <form className="card grid gap-3 shadow-lg shadow-brand-100/40 dark:shadow-none" onSubmit={handleSubmit}>
         <input
@@ -48,7 +48,7 @@ export default function LoginPage() {
         <input
           type="password"
           className="input-control"
-          placeholder="Mot de passe"
+          placeholder="Password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -59,7 +59,7 @@ export default function LoginPage() {
           disabled={loading}
           className="btn-primary disabled:opacity-50"
         >
-          {loading ? 'Connexion...' : 'Se connecter'}
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
     </section>

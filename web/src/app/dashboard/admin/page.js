@@ -20,7 +20,7 @@ export default function AdminDashboardPage() {
       const result = await fetchAdminArtisans(1, 10, search);
       setData(result);
     } catch (err) {
-      setError(err.message || 'Impossible de charger les données admin.');
+      setError(err.message || 'Unable to load admin data.');
     } finally {
       setLoading(false);
     }
@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
   }, [loadArtisans]);
 
   async function handleDeleteArtisan(artisanId) {
-    const confirmed = globalThis.confirm('Confirmer la suppression de cet artisan ?');
+    const confirmed = globalThis.confirm('Confirm deletion of this artisan?');
     if (!confirmed) return;
 
     setDeletingId(artisanId);
@@ -51,12 +51,12 @@ export default function AdminDashboardPage() {
     try {
       const result = await deleteAdminArtisan(artisanId);
       setActionMessage(
-        `Artisan supprimé. Produits: ${result.moderationSummary?.productsDeleted || 0}, ` +
-          `Avis reçus: ${result.moderationSummary?.ratingsReceivedDeleted || 0}.`
+        `Artisan deleted. Products: ${result.moderationSummary?.productsDeleted || 0}, ` +
+          `Reviews received: ${result.moderationSummary?.ratingsReceivedDeleted || 0}.`
       );
       await loadArtisans();
     } catch (err) {
-      setError(err.message || 'Suppression artisan impossible.');
+      setError(err.message || 'Unable to delete artisan.');
     } finally {
       setDeletingId('');
     }
@@ -71,10 +71,10 @@ export default function AdminDashboardPage() {
 
     try {
       const result = await deleteAdminProduct(trimmedId);
-      setActionMessage(`Produit supprimé: ${result.moderationSummary?.productName || trimmedId}`);
+      setActionMessage(`Product deleted: ${result.moderationSummary?.productName || trimmedId}`);
       setProductIdToDelete('');
     } catch (err) {
-      setError(err.message || 'Suppression produit impossible.');
+      setError(err.message || 'Unable to delete product.');
     }
   }
 
@@ -82,10 +82,10 @@ export default function AdminDashboardPage() {
     <AuthGate roles={['admin']}>
       <section className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-bold">Dashboard Admin</h1>
+          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
           <input
             className="rounded-md border border-slate-300 px-3 py-2"
-            placeholder="Recherche artisan (nom/email)"
+            placeholder="Search artisan (name/email)"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
@@ -94,7 +94,7 @@ export default function AdminDashboardPage() {
         <div className="card flex flex-col gap-3 sm:flex-row sm:items-center">
           <input
             className="flex-1 rounded-md border border-slate-300 px-3 py-2"
-            placeholder="Supprimer un produit par ID"
+            placeholder="Delete a product by ID"
             value={productIdToDelete}
             onChange={(event) => setProductIdToDelete(event.target.value)}
           />
@@ -103,11 +103,11 @@ export default function AdminDashboardPage() {
             onClick={handleDeleteProductById}
             className="rounded-md bg-red-600 px-3 py-2 text-white hover:bg-red-700"
           >
-            Supprimer produit
+            Delete product
           </button>
         </div>
 
-        {loading ? <div className="card">Chargement...</div> : null}
+        {loading ? <div className="card">Loading...</div> : null}
         {error ? <div className="card text-red-600">{error}</div> : null}
         {actionMessage ? <div className="card text-emerald-700">{actionMessage}</div> : null}
 
@@ -117,8 +117,8 @@ export default function AdminDashboardPage() {
               <thead>
                 <tr className="border-b text-left">
                   <th className="py-2">Artisan</th>
-                  <th className="py-2">Profil</th>
-                  <th className="py-2">Produits</th>
+                  <th className="py-2">Profile</th>
+                  <th className="py-2">Products</th>
                   <th className="py-2">Ratings</th>
                   <th className="py-2">Action</th>
                 </tr>
@@ -130,7 +130,7 @@ export default function AdminDashboardPage() {
                       <p className="font-medium">{artisan.name}</p>
                       <p className="text-slate-500">{artisan.email}</p>
                     </td>
-                    <td className="py-2">{artisan.moderation?.hasProfile ? 'Oui' : 'Non'}</td>
+                    <td className="py-2">{artisan.moderation?.hasProfile ? 'Yes' : 'No'}</td>
                     <td className="py-2">{artisan.moderation?.productsCount || 0}</td>
                     <td className="py-2">{artisan.moderation?.ratingsCount || 0}</td>
                     <td className="py-2">
@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
                         onClick={() => handleDeleteArtisan(artisan._id)}
                         className="rounded-md border border-red-300 px-2 py-1 text-red-700 hover:bg-red-50 disabled:opacity-50"
                       >
-                        {deletingId === artisan._id ? 'Suppression...' : 'Supprimer'}
+                        {deletingId === artisan._id ? 'Deleting...' : 'Delete'}
                       </button>
                     </td>
                   </tr>

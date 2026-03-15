@@ -54,7 +54,7 @@ export default function Navbar() {
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
           <Link href="/catalog" className={navItemClass('/catalog')}>
-            Catalogue
+            Catalog
           </Link>
           <Link href="/dashboard/artisan" className={navItemClass('/dashboard/artisan')}>
             Artisan

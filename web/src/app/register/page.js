@@ -30,7 +30,7 @@ export default function RegisterPage() {
         router.push('/');
       }
     } catch (err) {
-      setError(err.message || 'Inscription impossible');
+      setError(err.message || 'Unable to register');
     } finally {
       setLoading(false);
     }
@@ -39,14 +39,14 @@ export default function RegisterPage() {
   return (
     <section className="mx-auto max-w-md space-y-5">
       <div className="space-y-1 text-center">
-        <h1 className="section-title">Inscription</h1>
-        <p className="section-subtitle">Crée ton compte en quelques secondes.</p>
+        <h1 className="section-title">Register</h1>
+        <p className="section-subtitle">Create your account in a few seconds.</p>
       </div>
       <form className="card grid gap-3 shadow-lg shadow-brand-100/40 dark:shadow-none" onSubmit={handleSubmit}>
         <input
           type="text"
           className="input-control"
-          placeholder="Nom"
+          placeholder="Name"
           value={name}
           onChange={(event) => setName(event.target.value)}
           required
@@ -62,7 +62,7 @@ export default function RegisterPage() {
         <input
           type="password"
           className="input-control"
-          placeholder="Mot de passe"
+          placeholder="Password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -73,7 +73,7 @@ export default function RegisterPage() {
           value={role}
           onChange={(event) => setRole(event.target.value)}
         >
-          <option value="user">Utilisateur</option>
+          <option value="user">User</option>
           <option value="artisan">Artisan</option>
         </select>
 
@@ -83,7 +83,7 @@ export default function RegisterPage() {
           disabled={loading}
           className="btn-primary disabled:opacity-50"
         >
-          {loading ? 'Inscription...' : "S'inscrire"}
+          {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
     </section>
